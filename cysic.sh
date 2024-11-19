@@ -88,8 +88,8 @@ main_menu() {
         clear
         echo "请选择一个选项:"
         echo "1. 下载并设置"
-        echo "5. 查看日志"
-        echo "7. 退出"
+        echo "2. 查看日志"
+        echo "3. 退出"
 
         read -p "请输入选项 (1-3): " choice
 
