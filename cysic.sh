@@ -101,7 +101,8 @@ main_menu() {
         echo "请选择一个选项:"
         echo "1. 下载并设置"
         echo "2. 查看日志"
-        echo "3. 退出"
+        echo "3. 卸载"
+        echo "4. 退出"
 
         read -p "请输入选项 (1-3): " choice
 
@@ -113,6 +114,9 @@ main_menu() {
                 view_logs
                 ;;
             3)
+                delete
+                ;;
+            4)
                 echo "退出脚本。"
                 exit 0
                 ;;
