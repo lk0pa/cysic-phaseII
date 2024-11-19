@@ -68,7 +68,7 @@ download_and_setup() {
 
     read -p "请输入你的白名单EVM地址(需要带0x): " EVM_ADDRESS
 
-    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh > ~/setup_linux.sh && bash ~/setup_linux.sh EVM_ADDRESS
+    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh > ~/setup_linux.sh && bash ~/setup_linux.sh $EVM_ADDRESS
 
     cd ~/cysic-verifier/ 
 
