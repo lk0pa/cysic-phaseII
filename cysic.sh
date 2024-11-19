@@ -61,9 +61,10 @@ install_pm2() {
 
 # 功能1：下载、解压缩并运行帮助命令
 download_and_setup() {
-    install_dependencies()
-    install_node()
-    install_pm2()
+
+    install_dependencies
+    install_node
+    install_pm2
 
     read -p "请输入你的白名单EVM地址(需要带0x): " EVM_ADDRESS
 
@@ -94,7 +95,7 @@ main_menu() {
 
         case $choice in
             1)
-                backup_address
+                download_and_setup
                 ;;
             2)
                 view_logs
