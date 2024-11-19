@@ -1,10 +1,19 @@
 #!/bin/bash
 
+# 检查是否以 root 用户运行脚本
+if [ "$(id -u)" != "0" ]; then
+    echo "此脚本需要以 root 用户权限运行。"
+    echo "请尝试使用 'sudo -i' 命令切换到 root 用户，然后再次运行此脚本。"
+    exit 1
+fi
+
+
 # 发生错误时退出脚本
 set -e
 
 # 捕获错误并提示
 trap 'echo "发生错误，脚本已退出。";' ERR
+
 
 # 功能：自动安装缺少的依赖项 (git 和 make)
 install_dependencies() {
