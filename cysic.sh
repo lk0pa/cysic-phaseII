@@ -4,13 +4,13 @@
 set -e
 
 # 捕获错误并提示
-trap 'echo "发生错误，脚本已退出。/ An error occurred, the script has exited.";' ERR
+trap 'echo "发生错误，脚本已退出。";' ERR
 
 # 功能：自动安装缺少的依赖项 (git 和 make)
 install_dependencies() {
     for cmd in git make; do
         if ! command -v $cmd &> /dev/null; then
-            echo "$cmd 未安装。正在自动安装 $cmd... / $cmd is not installed. Installing $cmd..."
+            echo "$cmd 未安装。正在自动安装 $cmd..."
 
             # 检测操作系统类型并执行相应的安装命令
             if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -19,7 +19,7 @@ install_dependencies() {
             elif [[ "$OSTYPE" == "darwin"* ]]; then
                 brew install $cmd
             else
-                echo "不支持的操作系统。请手动安装 $cmd。/ Unsupported OS. Please manually install $cmd."
+                echo "不支持的操作系统。请手动安装 $cmd。"
                 exit 1
             fi
         fi
@@ -29,7 +29,7 @@ install_dependencies() {
 
 # 功能：检查并安装 Node.js 和 npm
 install_node() {
-    echo "检测到未安装 npm。正在安装 Node.js 和 npm... / npm is not installed. Installing Node.js and npm..."
+    echo "检测到未安装 npm。正在安装 Node.js 和 npm..."
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
@@ -37,25 +37,25 @@ install_node() {
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         brew install node
     else
-        echo "不支持的操作系统。请手动安装 Node.js 和 npm。/ Unsupported OS. Please manually install Node.js and npm."
+        echo "不支持的操作系统。请手动安装 Node.js 和 npm。"
         exit 1
     fi
 
-    echo "Node.js 和 npm 安装完成。/ Node.js and npm installation completed."
+    echo "Node.js 和 npm 安装完成。"
 }
 
 # 功能：安装 pm2
 install_pm2() {
     if ! command -v npm &> /dev/null; then
-        echo "npm 未安装。/ npm is not installed."
+        echo "npm 未安装。"
         install_node
     fi
 
     if ! command -v pm2 &> /dev/null; then
-        echo "pm2 未安装。正在安装 pm2... / pm2 is not installed. Installing pm2..."
+        echo "pm2 未安装。正在安装 pm2..."
         npm install -g pm2
     else
-        echo "pm2 已安装。/ pm2 is already installed."
+        echo "pm2 已安装。"
     fi
 }
 
@@ -73,14 +73,26 @@ download_and_setup() {
     cd ~/cysic-verifier/ 
 
     pm2 start ./start.sh --name Cysic-phase-ll 
+
+    echo "～\.cysic\keys文件夹中的文件，请注意备份，否则无法再次运行验证程序。"
+
+    # 提示用户按任意键返回主菜单
+    read -n 1 -s -r -p "按任意键返回主菜单..."
 }
 
 
-# 功能5：查看日志
+# 功能2：查看日志
 view_logs() {
     pm2 logs Cysic-phase-ll
 }
 
+# 功能3: 卸载
+delete() {
+    pm2 stop Cysic-phase-ll
+    pm2 delete Cysic-phase-ll
+    rm -rf ~/cysic-verifier/
+
+}
 
 # 主菜单
 main_menu() {
